@@ -2,6 +2,33 @@
 
 const { addLog, getLogs } = require("./logger");
 const mineflayer = require("mineflayer");
+// A simple Q&A dictionary for Minecraft questions
+const minecraftQA = {
+    "how to make a portal": "To make a Nether portal, build a 4x5 frame of Obsidian and light it with Flint and Steel!",
+    "what is the best armor": "Netherite armor is the strongest armor in vanilla Minecraft.",
+    "how to find diamonds": "Diamonds commonly spawn deep underground between Y-levels -50 and -64. Happy mining!",
+    "how to craft a bed": "Craft a bed using 3 Wood Platoons/Planks on the bottom row and 3 Wool blocks on the middle row.",
+    "what does smp stand for": "SMP stands for Survival Multiplayer!",
+    "help": "I am an AFK bot! Ask me things like 'how to find diamonds' or 'how to make a portal'."
+};
+
+// Listen for chat messages
+bot.on('chat', (username, message) => {
+    // Prevent the bot from replying to itself
+    if (username === bot.username) return;
+
+    // Convert message to lowercase to make it easier to match
+    const msgLower = message.toLowerCase();
+
+    // Check if the message matches any of our predefined questions
+    for (const question in minecraftQA) {
+        if (msgLower.includes(question)) {
+            // Bot responds in-game
+            bot.chat(`@${username}, ${minecraftQA[question]}`);
+            return; // Stop checking once we find a match
+        }
+    }
+});
 const { Movements, pathfinder, goals } = require("mineflayer-pathfinder");
 const { GoalBlock } = goals;
 const config = require("./settings.json");
